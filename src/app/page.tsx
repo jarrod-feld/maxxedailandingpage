@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Roboto, Hammersmith_One } from "next/font/google";
 import { motion } from "framer-motion";
+// 1) IMPORT from react-anchor-link-smooth-scroll
+import AnchorLink from "react-anchor-link-smooth-scroll";
 
 /**
  * 1) Load TT Hoves (stand-in: Roboto) + Hammersmith One
@@ -39,8 +41,10 @@ const slideRight = {
   visible: { x: 0, opacity: 1 },
 };
 
-/** 
+/**
  * 1) Top NavBar 
+ *    - Vertical divider in the desktop navbar
+ *    - Smooth scrolling to #about, #pricing, #sign-in using AnchorLink
  */
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,10 +58,17 @@ function NavBar() {
       transition={{ duration: 0.8 }}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* Brand Logo */}
-        <div className={`text-2xl sm:text-3xl font-bold ${hammersmithOne.className}`}>
-          <span className="text-white">Maxxed</span>
-          <span style={{ color: "#ffcc53" }}>AI</span>
+        {/* Left side: Brand Logo */}
+        <div className="flex items-center space-x-4">
+          <div
+            className={`text-2xl sm:text-3xl font-bold ${hammersmithOne.className}`}
+          >
+            <span className="text-white">Maxxed</span>
+            <span style={{ color: "#ffcc53" }}>AI</span>
+          </div>
+
+          {/* VERTICAL DIVIDER (visible on desktop) */}
+          <div className="hidden md:block border-l border-gray-700 h-6" />
         </div>
 
         {/* Hamburger button (mobile) */}
@@ -73,20 +84,29 @@ function NavBar() {
 
         {/* Desktop Nav Links */}
         <div className="hidden md:flex items-center space-x-6 text-base">
-          <a href="#about" className="hover:opacity-80 text-white">
+          <AnchorLink
+            href="#about"
+            offset="70" // optional offset to adjust final scroll position
+            className="hover:opacity-80 text-white cursor-pointer"
+          >
             About
-          </a>
-          <a href="#pricing" className="hover:opacity-80 text-white">
+          </AnchorLink>
+          <AnchorLink
+            href="#pricing"
+            offset="70"
+            className="hover:opacity-80 text-white cursor-pointer"
+          >
             Pricing
-          </a>
-          <a
+          </AnchorLink>
+          <AnchorLink
             href="#sign-in"
+            offset="70"
             className="border border-[#ffcc53] text-[#ffcc53] px-4 py-2 
                        rounded-full hover:bg-[#ffcc53] hover:text-black 
-                       transition-colors"
+                       transition-colors cursor-pointer"
           >
             Sign In
-          </a>
+          </AnchorLink>
         </div>
       </div>
 
@@ -98,29 +118,32 @@ function NavBar() {
           animate={{ opacity: 1, height: "auto" }}
           transition={{ duration: 0.3 }}
         >
-          <a
+          <AnchorLink
             href="#about"
-            className="text-white block border-b border-gray-700 pb-2"
+            offset="70"
+            className="text-white block border-b border-gray-700 pb-2 cursor-pointer"
             onClick={() => setIsOpen(false)}
           >
             About
-          </a>
-          <a
+          </AnchorLink>
+          <AnchorLink
             href="#pricing"
-            className="text-white block border-b border-gray-700 pb-2"
+            offset="70"
+            className="text-white block border-b border-gray-700 pb-2 cursor-pointer"
             onClick={() => setIsOpen(false)}
           >
             Pricing
-          </a>
-          <a
+          </AnchorLink>
+          <AnchorLink
             href="#sign-in"
+            offset="70"
             className="border border-[#ffcc53] text-[#ffcc53] px-4 py-2 
                        rounded-full hover:bg-[#ffcc53] hover:text-black 
-                       transition-colors text-center"
+                       transition-colors text-center cursor-pointer"
             onClick={() => setIsOpen(false)}
           >
             Sign In
-          </a>
+          </AnchorLink>
         </motion.div>
       )}
     </motion.nav>
@@ -128,7 +151,8 @@ function NavBar() {
 }
 
 /** 
- * 2) Hero Section 
+ * 2) Hero Section (id="about")
+ *    - The NavBar "About" links here.
  */
 function HeroSection() {
   return (
@@ -189,7 +213,8 @@ function HeroSection() {
 }
 
 /**
- * 3) Pricing Section
+ * 3) Pricing Section (id="pricing")
+ *    - The NavBar "Pricing" links here.
  */
 const slideUpContainer = {
   hidden: {},
@@ -344,9 +369,9 @@ function PricingSection() {
   );
 }
 
-/** 
- * 4) Footer
- */
+
+
+
 function Footer() {
   return (
     <motion.footer
@@ -363,7 +388,7 @@ function Footer() {
 }
 
 /** 
- * 5) Main Page
+ * 6) Main Page
  */
 export default function HomePage() {
   return (
@@ -371,14 +396,19 @@ export default function HomePage() {
       className={`${tthoves.variable} ${hammersmithOne.variable} bg-black min-h-screen text-white`}
       style={{ fontFamily: "var(--font-tt-hoves)" }}
     >
-      {/* NavBar (no sub nav) */}
+      {/* NavBar */}
       <NavBar />
+
+      {/* Divider below NavBar */}
+      <hr className="border-t border-gray-700 mx-auto w-full" />
 
       {/* Hero section */}
       <HeroSection />
 
       {/* Pricing */}
       <PricingSection />
+
+     
 
       {/* Footer */}
       <Footer />
